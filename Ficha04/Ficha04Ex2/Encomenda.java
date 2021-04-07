@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Encomenda composta por nome, NIF e morada do cliente, número, data e linhas da encomenda.
@@ -86,7 +87,9 @@ public class Encomenda {
     }
 
     public List<LinhaEncomenda> getEncomendas(){
-        return this.encomendas;
+        //return new ArrayList<>(this.encomendas); //Seria correto se a estratégia fosse de agregação. Isto partilha os conteúdos
+
+        return this.encomendas.stream().map(LinhaEncomenda::clone).collect(Collectors.toList());
     }
 
     public void setNome(String nome){
@@ -110,7 +113,10 @@ public class Encomenda {
     }
 
     public void setEncomendas(List<LinhaEncomenda> le){
-        this.encomendas = new ArrayList<>(le);
+        this.encomendas = new ArrayList<>();
+        for(LinhaEncomenda l: le){
+            this.encomendas.add(l.clone());
+        }
     }
 
 
